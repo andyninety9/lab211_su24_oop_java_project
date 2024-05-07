@@ -49,6 +49,7 @@ public class FileManager<T> implements IFileManager<T> {
 	    }
 	    ois.close();
 	    fis.close();
+	    System.out.println(">>Load file successfully!");
 	}
 	return result;
     }

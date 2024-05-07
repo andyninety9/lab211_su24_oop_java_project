@@ -8,7 +8,9 @@ package Application.UI;
 import Application.Utilities.Utils;
 import BussinessLayer.Components.DataValidation;
 import BussinessLayer.Entity.Event;
+import BussinessLayer.Service.EventService;
 import BussinessLayer.Service.IService;
+import java.util.List;
 
 /**
  *
@@ -34,11 +36,11 @@ public class EventMenu {
 		break;
 	    }
 	    case 2: {
-
+		checkEventExist();
 		break;
 	    }
 	    case 3: {
-
+		displayEventByLocation();
 		break;
 	    }
 	    case 4: {
@@ -60,6 +62,47 @@ public class EventMenu {
 	    }
 	    }
 	} while (isRun);
+    }
+
+    public void checkEventExist() {
+	try {
+	    do {
+		String id_check = Utils.getString("Enter event id to check: ");
+		if (((EventService) service).searchById(id_check) > -1) {
+		    System.out.println(">>Exist Event");
+		} else {
+		    System.out.println(">>No Event Found!");
+		}
+	    } while (Utils.confirmChoice("Do you want to continue checking[YES/NO]: "));
+	} catch (Exception e) {
+	    System.out.println(">>" + e.getMessage());
+	}
+    }
+
+    public void displayEventByLocation() {
+	try {
+	    do {
+		String location = Utils.getString("Enter event location to check: ");
+		List<Event> list = ((EventService) service).searchByLocation(location);
+		if (list.isEmpty()) {
+		    System.out.println("No Event Found");
+		} else {
+		    System.out.println(
+			    "+-----------------------------------------------------------------------------------+");
+		    System.out.println(String.format("|%-10s|%-20s|%-10s|%-15s|%-10s|%-13s|", "    ID", "        NAME",
+			    "   DATE", "   LOCATION", "  NO.ATD", "   STATUS"));
+		    System.out.println(
+			    "+-----------------------------------------------------------------------------------+");
+		    for (Event event : list) {
+			System.out.println(event);
+		    }
+		    System.out.println(
+			    "+-----------------------------------------------------------------------------------+");
+		}
+	    } while (Utils.confirmChoice("Do you want to continue[YES/NO]: "));
+	} catch (Exception e) {
+	    System.out.println(">>" + e.getMessage());
+	}
     }
 
     public Event inputEventInformation() throws Exception {
@@ -112,9 +155,11 @@ public class EventMenu {
 
     public void addNewEvent() {
 	try {
-	    Event newEvent = inputEventInformation();
-	    service.add(newEvent);
-	    System.out.println(">>Added event successfully!");
+	    do {
+		Event newEvent = inputEventInformation();
+		service.add(newEvent);
+		System.out.println(">>Added event successfully!");
+	    } while (Utils.confirmChoice("Do you want to continue[YES/NO]: "));
 	} catch (Exception e) {
 	    System.out.println(">>" + e.getMessage());
 	}

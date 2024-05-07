@@ -5,6 +5,7 @@
 
 package BussinessLayer.Service;
 
+import BussinessLayer.Entity.Event;
 import java.util.List;
 
 /**
