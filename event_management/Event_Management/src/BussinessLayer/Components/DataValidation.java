@@ -17,6 +17,7 @@ public class DataValidation {
     public static boolean validateName(String name) {
 	String regex = "^[^\\s]*$";
 	if (name.length() < 5 || !name.matches(regex)) {
+	    System.out.println(">>Ensure that the event name is at least five characters and does not contain spaces");
 	    return false;
 	}
 	return true;
@@ -28,19 +29,24 @@ public class DataValidation {
 	    LocalDate date = LocalDate.parse(dateCheck, formatter);
 	    return true;
 	} catch (DateTimeParseException e) {
+	    System.out.println(">>Ensure that the event date is valid and in the correct format (YYYY-MM-DD)");
 	    return false;
 	}
     }
 
     public static boolean validateLocation(String location) {
-	if (location.isBlank())
+	if (location.isBlank()) {
+	    System.out.println(">>Ensure that the location is provided.");
 	    return false;
+	}
 	return true;
     }
 
     public static boolean validateNoAttendees(int number) {
-	if (number <= 0)
+	if (number <= 0) {
+	    System.out.println(">>Ensure that the number of attendees must be greater than 0");
 	    return false;
+	}
 	return true;
     }
 
@@ -50,15 +56,5 @@ public class DataValidation {
 	}
 	return true;
     }
-
-//    public static void main(String[] args) {
-//	try {
-//	    String s = Utils.getString("Enter: ");
-//	    System.out.println(validateDate(s));
-//	} catch (Exception e) {
-//	    System.out.println(e);
-//	}
-//
-//    }
 
 }

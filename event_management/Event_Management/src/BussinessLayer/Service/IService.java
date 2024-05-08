@@ -20,6 +20,10 @@ public interface IService<T> {
 
     void add(T obj) throws Exception;
 
+    void update(String id) throws Exception;
+
+    void delete(String id) throws Exception;
+
     void saveDataToFile() throws Exception;
 
 }

@@ -11,6 +11,8 @@ import BussinessLayer.Entity.Event;
 import BussinessLayer.Service.EventService;
 import BussinessLayer.Service.IService;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -32,27 +34,27 @@ public class EventMenu {
 	    Menu.display(mainMenu);
 	    switch (Menu.getUserChoice()) {
 	    case 1: {
-		addNewEvent();
+		handleAddNewEvent();
 		break;
 	    }
 	    case 2: {
-		checkEventExist();
+		handleCheckEventExist();
 		break;
 	    }
 	    case 3: {
-		displayEventByLocation();
+		handleSortEventByLocation();
 		break;
 	    }
 	    case 4: {
-
+		processMenuUpdate();
 		break;
 	    }
 	    case 5: {
-		saveFile();
+		handleSaveToFile();
 		break;
 	    }
 	    case 6: {
-		displayListEvent();
+		handleDisplayListEvent();
 		break;
 	    }
 	    default: {
@@ -64,7 +66,7 @@ public class EventMenu {
 	} while (isRun);
     }
 
-    public void checkEventExist() {
+    public void handleCheckEventExist() {
 	try {
 	    do {
 		String id_check = Utils.getString("Enter event id to check: ");
@@ -79,25 +81,25 @@ public class EventMenu {
 	}
     }
 
-    public void displayEventByLocation() {
+    public void handleSortEventByLocation() {
 	try {
 	    do {
 		String location = Utils.getString("Enter event location to check: ");
 		List<Event> list = ((EventService) service).searchByLocation(location);
 		if (list.isEmpty()) {
-		    System.out.println("No Event Found");
+		    System.out.println(">>No Event Found");
 		} else {
 		    System.out.println(
-			    "+-----------------------------------------------------------------------------------+");
-		    System.out.println(String.format("|%-10s|%-20s|%-10s|%-15s|%-10s|%-13s|", "    ID", "        NAME",
+			    "+---------------------------------------------------------------------------------------------+");
+		    System.out.println(String.format("|%-10s|%-20s|%-10s|%-25s|%-10s|%-13s|", "    ID", "        NAME",
 			    "   DATE", "   LOCATION", "  NO.ATD", "   STATUS"));
 		    System.out.println(
-			    "+-----------------------------------------------------------------------------------+");
+			    "+---------------------------------------------------------------------------------------------+");
 		    for (Event event : list) {
 			System.out.println(event);
 		    }
 		    System.out.println(
-			    "+-----------------------------------------------------------------------------------+");
+			    "+---------------------------------------------------------------------------------------------+");
 		}
 	    } while (Utils.confirmChoice("Do you want to continue[YES/NO]: "));
 	} catch (Exception e) {
@@ -112,9 +114,6 @@ public class EventMenu {
 	    name = Utils.getString("Enter event name: ");
 	    if (DataValidation.validateName(name)) {
 		break;
-	    } else {
-		System.out.println(
-			">>Ensure that the event name is at least five characters and does not contain spaces");
 	    }
 	}
 	String day;
@@ -122,8 +121,6 @@ public class EventMenu {
 	    day = Utils.getString("Enter event day[yyyy-mm-dd]: ");
 	    if (DataValidation.validateDate(day)) {
 		break;
-	    } else {
-		System.out.println(">>Ensure that the event date is valid and in the correct format (YYYY-MM-DD)");
 	    }
 	}
 	String location;
@@ -131,8 +128,6 @@ public class EventMenu {
 	    location = Utils.getString("Enter event location: ");
 	    if (DataValidation.validateLocation(location)) {
 		break;
-	    } else {
-		System.out.println(">>Ensure that the location is provided.");
 	    }
 	}
 	int numberAttendees;
@@ -140,20 +135,14 @@ public class EventMenu {
 	    numberAttendees = Utils.getIntegerNumber("Enter number of attendees: ");
 	    if (DataValidation.validateNoAttendees(numberAttendees)) {
 		break;
-	    } else {
-		System.out.println(">>Ensure that the number of attendees must be greater than 0");
 	    }
 	}
-	String available;
-	if (Utils.confirmChoice("Enter 'y' for Available or others for Not Available:  ")) {
-	    available = "Available";
-	} else {
-	    available = "Not Available";
-	}
+	String available = Utils.inputStatus();
+
 	return new Event(id, name, day, location, numberAttendees, available);
     }
 
-    public void addNewEvent() {
+    public void handleAddNewEvent() {
 	try {
 	    do {
 		Event newEvent = inputEventInformation();
@@ -165,14 +154,27 @@ public class EventMenu {
 	}
     }
 
-    public void saveFile() {
+    public void handleSaveToFile() {
 	try {
 	    service.saveDataToFile();
 	} catch (Exception e) {
 	}
     }
 
-    public void displayListEvent() {
+    public void handleUpdateEvent() {
+	try {
+	    handleDisplayListEvent();
+	    do {
+		String idUpdate = Utils.getString("Enter event id to update: ");
+		service.update(idUpdate);
+		handleDisplayListEvent();
+	    } while (Utils.confirmChoice("Do you want to continue update[YES/NO]: "));
+	} catch (Exception ex) {
+	    Logger.getLogger(EventMenu.class.getName()).log(Level.SEVERE, null, ex);
+	}
+    }
+
+    public void handleDisplayListEvent() {
 	try {
 	    service.printList();
 	} catch (Exception e) {
@@ -180,6 +182,42 @@ public class EventMenu {
 	}
 
     }
+
+    public void handleDeleteExistEvent() {
+	try {
+	    do {
+		String idDelete = Utils.getString("Enter event ID to delete: ");
+		service.delete(idDelete);
+		handleDisplayListEvent();
+	    } while (Utils.confirmChoice("Do you want to continue delete[YES/NO]: "));
+	} catch (Exception e) {
+	}
+    }
+
+    public void processMenuUpdate() {
+	boolean isRun = true;
+	do {
+	    Menu.display(updateMenu);
+	    switch (Menu.getUserChoice()) {
+	    case 1: {
+		handleUpdateEvent();
+		break;
+	    }
+	    case 2: {
+		handleDeleteExistEvent();
+		break;
+	    }
+	    default: {
+		isRun = false;
+		break;
+	    }
+	    }
+	} while (isRun);
+    }
+
+    public static String[] updateMenu = { "+--------------------------------------------------+", "       MAIN MENU",
+	    "|--------------------------------------------------|", "1. Update exist event", "2. Delete exist event",
+	    "3. Others - Quits", "+--------------------------------------------------+" };
 
     public static String[] mainMenu = { "+--------------------------------------------------+", "       MAIN MENU",
 	    "|--------------------------------------------------|", "1. Create a new event", "2. Check event exists",

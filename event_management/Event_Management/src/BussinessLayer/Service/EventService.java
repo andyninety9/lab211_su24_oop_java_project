@@ -11,6 +11,8 @@ import BussinessLayer.Entity.Event;
 import DataLayer.DaoFactory;
 import DataLayer.Event.IEventDao;
 import DataLayer.IDaoFactory;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,14 +51,19 @@ public class EventService implements IService<Event> {
 
     @Override
     public void printList() throws Exception {
-	System.out.println("+-----------------------------------------------------------------------------------+");
-	System.out.println(String.format("|%-10s|%-20s|%-10s|%-15s|%-10s|%-13s|", "    ID", "        NAME", "   DATE",
-		"   LOCATION", "  NO.ATD", "   STATUS"));
-	System.out.println("+-----------------------------------------------------------------------------------+");
-	for (Object object : eventAction.getList()) {
+	List<Event> listAfterSorted = eventAction.getList();
+	sortListEventByDateAndName(listAfterSorted);
+	System.out.println(
+		"+---------------------------------------------------------------------------------------------+");
+	System.out.println(String.format("|%-10s|%-20s|%-10s|%-25s|%-10s|%-13s|", "    ID", "        NAME", "   DATE",
+		"         LOCATION", "  NO.ATD", "   STATUS"));
+	System.out.println(
+		"+---------------------------------------------------------------------------------------------+");
+	for (Object object : listAfterSorted) {
 	    System.out.println(object);
 	}
-	System.out.println("+-----------------------------------------------------------------------------------+");
+	System.out.println(
+		"+---------------------------------------------------------------------------------------------+");
     }
 
     @Override
@@ -92,15 +99,77 @@ public class EventService implements IService<Event> {
 
     }
 
+    @Override
     public void update(String id) throws Exception {
 	int position = searchById(id);
 	if (position == -1) {
-	    throw new Exception("Event does not exist");
+	    System.out.println(">>Event does not exist");
+	    return;
 	}
 	Event tmpEvent = (Event) eventAction.getList().get(position);
-	String newName = Utils.getString("Enter a new event name: ");
+	String newName = Utils.getString("Update a new event name: ");
 	if (!newName.isBlank() && DataValidation.validateName(newName)) {
+	    tmpEvent.setEventName(newName);
+	}
+	String newDate = Utils.getString("Update a new date: ");
+	if (!newDate.isBlank() && DataValidation.validateDate(newDate)) {
+	    tmpEvent.setEventDay(newDate);
+	}
+	String newLocation = Utils.getString("Update a new location: ");
+	if (!newLocation.isBlank() && DataValidation.validateLocation(newLocation)) {
+	    tmpEvent.setEventLocation(newLocation);
+	}
+	int newNumAtd = Utils.getIntegerNumber("Update new number of attendees or enter -1 to skip: ");
+	if (newNumAtd != -1) {
+	    if (DataValidation.validateNoAttendees(newNumAtd)) {
+		tmpEvent.setNumberOfAttendees(newNumAtd);
+	    }
+	}
+	String newStatus = Utils.inputStatus();
+	if (Utils.confirmChoice("Do you want to update " + id + "[YES/NO]: ")) {
+	    eventAction.getList().set(position, tmpEvent);
+	    saveDataToFile();
+	    printList();
+	    System.out.println("Updated " + id + " successfully!");
+	}
 
+    }
+
+    @Override
+    public void delete(String id) throws Exception {
+	int position = searchById(id);
+	if (position == -1) {
+	    System.out.println(">>Event does not exist");
+	    return;
+	}
+	if (Utils.confirmChoice("Do you want to delete " + id + "[YES/NO]: ")) {
+	    eventAction.getList().remove(position);
+	    saveDataToFile();
+	    printList();
+	    System.out.println("Deleted " + id + " successfully!");
+	}
+
+    }
+
+    private void sortListEventByDateAndName(List<Event> list) throws Exception {
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	for (int i = 0; i < list.size(); i++) {
+	    for (int j = i; j < list.size(); j++) {
+		LocalDate dateLeft = LocalDate.parse(list.get(i).getEventDay(), formatter);
+		LocalDate dateRight = LocalDate.parse(list.get(j).getEventDay(), formatter);
+		if (dateLeft.compareTo(dateRight) > 0) {
+		    Event tmp = list.get(i);
+		    list.set(i, list.get(j));
+		    list.set(j, tmp);
+		} else if (dateLeft.compareTo(dateRight) == 0) {
+		    if (list.get(i).getEventName().toLowerCase()
+			    .compareTo(list.get(j).getEventName().toLowerCase()) > 0) {
+			Event tmp = list.get(i);
+			list.set(i, list.get(j));
+			list.set(j, tmp);
+		    }
+		}
+	    }
 	}
     }
 

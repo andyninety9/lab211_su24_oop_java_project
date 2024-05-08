@@ -70,4 +70,14 @@ public class Utils {
 	    return false;
 	}
     }
+
+    public static String inputStatus() {
+	String available;
+	if (Utils.confirmChoice("Enter 'y' for Available or others for Not Available:  ")) {
+	    available = "Available";
+	} else {
+	    available = "Not Available";
+	}
+	return available;
+    }
 }

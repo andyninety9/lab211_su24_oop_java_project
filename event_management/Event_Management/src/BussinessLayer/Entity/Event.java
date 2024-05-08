@@ -82,7 +82,7 @@ public class Event implements Serializable {
 
     @Override
     public String toString() {
-	return String.format("|%10s|%20s|%10s|%15s|%10d|%13s|", this.eventId, this.eventName, this.eventDay,
+	return String.format("|%10s|%20s|%10s|%25s|%10d|%13s|", this.eventId, this.eventName, this.eventDay,
 		this.eventLocation, this.numberOfAttendees, this.eventStatus);
     }
 
