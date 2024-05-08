@@ -5,7 +5,7 @@
 
 package BussinessLayer.Service;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -13,16 +13,13 @@ import java.util.List;
  * @param <T>
  */
 public interface IService<T> {
-    void printList() throws Exception;
-
-    List<T> getList() throws Exception;
-
     void add(T obj) throws Exception;
-
-    void update(String id) throws Exception;
 
     void delete(String id) throws Exception;
 
-    void saveDataToFile() throws Exception;
+    void update(String id) throws Exception;
 
+    Map<T, String> getList() throws Exception;
+
+    void saveDataToFile() throws Exception;
 }

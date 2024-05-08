@@ -3,26 +3,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
 
-package BussinessLayer.Service;
+package DataLayer;
 
+import BussinessLayer.Entity.User;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
  * @author duyma
  * @param <T>
  */
-public interface IService<T> {
-    void printList() throws Exception;
+public interface ILibraryDao<T> {
+    Map<T, String> getList() throws Exception;
 
-    List<T> getList() throws Exception;
-
-    void add(T obj) throws Exception;
-
-    void update(String id) throws Exception;
-
-    void delete(String id) throws Exception;
+    void loadDataFromFile() throws Exception;
 
     void saveDataToFile() throws Exception;
-
 }
