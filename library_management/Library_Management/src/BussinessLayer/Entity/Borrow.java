@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author duyma
  */
-public class Borrow implements Serializable, ILibraryObject {
+public class Borrow implements Serializable {
     private String id;
     private String bookId;
     private String userId;
@@ -71,7 +71,6 @@ public class Borrow implements Serializable, ILibraryObject {
 		+ ", returnDate=" + returnDate + '}';
     }
 
-    @Override
     public String getID() throws Exception {
 	return userId;
     }

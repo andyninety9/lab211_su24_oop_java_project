@@ -48,9 +48,9 @@ public class EventDao implements IEventDao<Event> {
 
     @Override
     public List<Event> getList() throws Exception {
-	if (eventList.isEmpty()) {
-	    throw new Exception("Event list is empty");
-	}
+//	if (eventList.isEmpty()) {
+//	    throw new Exception("Event list is empty");
+//	}
 	return eventList;
     }
 

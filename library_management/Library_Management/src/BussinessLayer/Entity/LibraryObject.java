@@ -5,11 +5,13 @@
 
 package BussinessLayer.Entity;
 
+import java.io.Serializable;
+
 /**
  *
  * @author duyma
  */
-public abstract class LibraryObject implements ILibraryObject {
+public abstract class LibraryObject implements Serializable {
     protected String id;
     protected String name;
     protected boolean status;
@@ -39,7 +41,7 @@ public abstract class LibraryObject implements ILibraryObject {
 	this.name = name;
     }
 
-    public boolean isStatus() {
+    public boolean getStatus() {
 	return status;
     }
 

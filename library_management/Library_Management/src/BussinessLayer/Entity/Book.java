@@ -63,13 +63,8 @@ public class Book extends LibraryObject implements Serializable {
 
     @Override
     public String toString() {
-	return "Book{" + "author=" + author + ", publicationYear=" + publicationYear + ", publisher=" + publisher
-		+ ", ISBN=" + ISBN + '}';
-    }
-
-    @Override
-    public String getID() throws Exception {
-	return id;
+	return String.format("|%10s|%20s|%20s|%4s|%15s|%10s|%7s|", super.id, super.name, this.author,
+		this.publicationYear, this.publisher, this.ISBN, super.status);
     }
 
 }

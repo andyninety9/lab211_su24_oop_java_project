@@ -55,9 +55,4 @@ public class User extends LibraryObject implements Serializable {
 	return "User{" + "dateOfBirth=" + dateOfBirth + ", phoneNumber=" + phoneNumber + ", email=" + email + '}';
     }
 
-    @Override
-    public String getID() throws Exception {
-	return id;
-    }
-
 }

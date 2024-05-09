@@ -5,8 +5,6 @@
 
 package DataLayer;
 
-import BussinessLayer.Entity.ILibraryObject;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,8 +13,8 @@ import java.util.Map;
  * @param <T>
  */
 public interface IFileManager<T> {
-    <T extends ILibraryObject> Map<T, String> readDataFromFile() throws Exception;
+    <K, V> Map<K, V> readDataFromFile() throws Exception;
 
-    <T extends ILibraryObject> void writeDataToFile(Map<T, String> list) throws Exception;
+    <K, V> void writeDataToFile(Map<T, String> list) throws Exception;
 
 }

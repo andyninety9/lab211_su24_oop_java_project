@@ -39,16 +39,12 @@ public class Program {
 		    break;
 		}
 		case 5: {
-
-		    break;
-		}
-		case 6: {
-
+		    bookService.saveDataToFile();
 		    break;
 		}
 		default: {
 		    isRun = false;
-		    System.out.println("Thank you");
+		    System.out.println("Thank you!");
 		    break;
 		}
 		}

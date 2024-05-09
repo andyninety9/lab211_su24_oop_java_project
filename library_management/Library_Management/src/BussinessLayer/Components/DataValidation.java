@@ -23,13 +23,14 @@ public class DataValidation {
 	return true;
     }
 
-    public static boolean validateDate(String dateCheck) {
+    public static boolean validateYear(String dateCheck) {
 	try {
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	    LocalDate date = LocalDate.parse(dateCheck, formatter);
-	    return true;
+	    if (Integer.parseInt(dateCheck) > 0) {
+		return true;
+	    }
+	    return false;
 	} catch (DateTimeParseException e) {
-	    System.out.println(">>Ensure that the event date is valid and in the correct format (YYYY-MM-DD)");
+	    System.out.println(">>Ensure that the event year is valid and in the correct format (YYYY)");
 	    return false;
 	}
     }

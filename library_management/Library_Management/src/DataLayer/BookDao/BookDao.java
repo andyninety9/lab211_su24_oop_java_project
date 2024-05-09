@@ -33,9 +33,6 @@ public class BookDao implements ILibraryDao<Book> {
 
     @Override
     public Map<Book, String> getList() throws Exception {
-	if (bookList.isEmpty()) {
-	    throw new Exception("Event list is empty");
-	}
 	return bookList;
     }
 
@@ -46,6 +43,7 @@ public class BookDao implements ILibraryDao<Book> {
 
     @Override
     public void saveDataToFile() throws Exception {
+	System.out.println();
 	fileManager.writeDataToFile(bookList);
     }
 
