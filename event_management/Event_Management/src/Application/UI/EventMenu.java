@@ -92,7 +92,7 @@ public class EventMenu {
 		    System.out.println(
 			    "+---------------------------------------------------------------------------------------------+");
 		    System.out.println(String.format("|%-10s|%-20s|%-10s|%-25s|%-10s|%-13s|", "    ID", "        NAME",
-			    "   DATE", "   LOCATION", "  NO.ATD", "   STATUS"));
+			    "   DATE", "        LOCATION", "  NO.ATD", "   STATUS"));
 		    System.out.println(
 			    "+---------------------------------------------------------------------------------------------+");
 		    for (Event event : list) {
@@ -132,10 +132,15 @@ public class EventMenu {
 	}
 	int numberAttendees;
 	while (true) {
-	    numberAttendees = Utils.getIntegerNumber("Enter number of attendees: ");
-	    if (DataValidation.validateNoAttendees(numberAttendees)) {
-		break;
+	    try {
+		numberAttendees = Utils.getIntegerNumber("Enter number of attendees: ");
+		if (DataValidation.validateNoAttendees(numberAttendees)) {
+		    break;
+		}
+	    } catch (Exception e) {
+		System.out.println(">>" + e.getMessage());
 	    }
+
 	}
 	String available = Utils.inputStatus();
 

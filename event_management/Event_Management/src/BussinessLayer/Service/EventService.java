@@ -107,25 +107,54 @@ public class EventService implements IService<Event> {
 	    return;
 	}
 	Event tmpEvent = (Event) eventAction.getList().get(position);
-	String newName = Utils.getString("Update a new event name: ");
-	if (!newName.isBlank() && DataValidation.validateName(newName)) {
-	    tmpEvent.setEventName(newName);
-	}
-	String newDate = Utils.getString("Update a new date: ");
-	if (!newDate.isBlank() && DataValidation.validateDate(newDate)) {
-	    tmpEvent.setEventDay(newDate);
-	}
-	String newLocation = Utils.getString("Update a new location: ");
-	if (!newLocation.isBlank() && DataValidation.validateLocation(newLocation)) {
-	    tmpEvent.setEventLocation(newLocation);
-	}
-	int newNumAtd = Utils.getIntegerNumber("Update new number of attendees or enter -1 to skip: ");
-	if (newNumAtd != -1) {
-	    if (DataValidation.validateNoAttendees(newNumAtd)) {
-		tmpEvent.setNumberOfAttendees(newNumAtd);
+	while (true) {
+	    String newName = Utils.getString("Update a new event name: ");
+	    if (newName.isBlank()) {
+		break;
+	    } else if (!newName.isBlank() && DataValidation.validateName(newName)) {
+		tmpEvent.setEventName(newName);
+		break;
 	    }
 	}
+	while (true) {
+	    String newDate = Utils.getString("Update a new date: ");
+	    if (newDate.isBlank()) {
+		break;
+	    } else if (!newDate.isBlank() && DataValidation.validateDate(newDate)) {
+		tmpEvent.setEventDay(newDate);
+		break;
+	    }
+	}
+
+	while (true) {
+	    String newLocation = Utils.getString("Update a new location: ");
+	    if (newLocation.isBlank()) {
+		break;
+	    } else if (!newLocation.isBlank() && DataValidation.validateLocation(newLocation)) {
+		tmpEvent.setEventLocation(newLocation);
+		break;
+	    }
+	}
+	while (true) {
+	    int newNumAtd;
+	    try {
+		newNumAtd = Utils.getIntegerNumber("Update new number of attendees or enter -1 to skip: ");
+		if (newNumAtd != -1) {
+		    if (DataValidation.validateNoAttendees(newNumAtd)) {
+			tmpEvent.setNumberOfAttendees(newNumAtd);
+			break;
+		    }
+		} else {
+		    break;
+		}
+	    } catch (Exception e) {
+		System.out.println(">>" + e.getMessage());
+	    }
+
+	}
+
 	String newStatus = Utils.inputStatus();
+	tmpEvent.setEventStatus(newStatus);
 	if (Utils.confirmChoice("Do you want to update " + id + "[YES/NO]: ")) {
 	    eventAction.getList().set(position, tmpEvent);
 	    saveDataToFile();
