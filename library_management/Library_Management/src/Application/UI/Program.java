@@ -14,11 +14,13 @@ import BussinessLayer.Service.IService;
  */
 public class Program {
     public static final String BOOKS_FILENAME = "books.dat";
+    public static final String USERS_FILENAME = "users.dat";
 
     public static void main(String[] args) {
 	boolean isRun = true;
 	try {
 	    IService bookService = new BookService(BOOKS_FILENAME);
+
 	    do {
 		Menu.display(mainMenu);
 		switch (Menu.getUserChoice()) {
@@ -27,7 +29,7 @@ public class Program {
 		    break;
 		}
 		case 2: {
-
+//		    Menu.manageUser(bookService);
 		    break;
 		}
 		case 3: {

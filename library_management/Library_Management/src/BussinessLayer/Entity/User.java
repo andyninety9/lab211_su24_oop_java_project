@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author duyma
  */
-public class User extends LibraryObject implements Serializable {
+public class User extends LibraryObject {
     private String dateOfBirth;
     private String phoneNumber;
     private String email;
@@ -52,7 +52,8 @@ public class User extends LibraryObject implements Serializable {
 
     @Override
     public String toString() {
-	return "User{" + "dateOfBirth=" + dateOfBirth + ", phoneNumber=" + phoneNumber + ", email=" + email + '}';
+	return String.format("|%10s|%20s|%12s|%12s|%20s|%8s|", super.getId(), super.getName(), this.dateOfBirth,
+		this.phoneNumber, this.getEmail(), super.getStatus());
     }
 
 }

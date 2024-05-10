@@ -19,7 +19,7 @@ public interface IService<T> {
 
     void update(String id) throws Exception;
 
-    Map<T, String> getList() throws Exception;
+    Map<String, T> getList() throws Exception;
 
     void saveDataToFile() throws Exception;
 }

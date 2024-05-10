@@ -13,7 +13,7 @@ import java.util.Map;
  * @param <T>
  */
 public interface ILibraryDao<T> {
-    Map<T, String> getList() throws Exception;
+    Map<String, T> getList() throws Exception;
 
     void loadDataFromFile() throws Exception;
 

@@ -35,21 +35,21 @@ public class BookService implements IService<Book> {
 	if (bookAction.getList().isEmpty()) {
 	    return null;
 	}
-	for (Map.Entry<Book, String> entry : getList().entrySet()) {
-	    if (entry.getValue().equalsIgnoreCase(id)) {
-		return entry.getKey();
+	for (Map.Entry<String, Book> entry : getList().entrySet()) {
+	    if (entry.getKey().equalsIgnoreCase(id)) {
+		return entry.getValue();
 	    }
 	}
 
 	return null;
     }
 
-    public List<String> sortListBookByIDAsc(Map<Book, String> list) throws Exception {
+    public List<String> sortListBookByIDAsc(Map<String, Book> list) throws Exception {
 	List<String> sortedBookID = new ArrayList<>();
-	for (Map.Entry<Book, String> entry : getList().entrySet()) {
-	    sortedBookID.add(entry.getValue());
+	for (Map.Entry<String, Book> entry : getList().entrySet()) {
+	    sortedBookID.add(entry.getKey());
 	}
-
+//note
 	for (int i = 0; i < sortedBookID.size(); i++) {
 	    for (int j = i; j < sortedBookID.size(); j++) {
 		if (sortedBookID.get(i).compareTo(sortedBookID.get(j)) > 0) {
@@ -64,7 +64,7 @@ public class BookService implements IService<Book> {
 
     @Override
     public void add(Book obj) throws Exception {
-	bookAction.getList().put(obj, obj.getId());
+	bookAction.getList().put(obj.getId(), obj);
     }
 
     @Override
@@ -74,9 +74,9 @@ public class BookService implements IService<Book> {
 	    throw new Exception(">>Book ID does not exist!");
 	}
 	if (Utils.confirmChoice("Do you want to hide " + id + " [YES/NO]: ")) {
-	    for (Map.Entry<Book, String> entry : getList().entrySet()) {
-		if (entry.getValue().equalsIgnoreCase(id)) {
-		    entry.getKey().setStatus(false);
+	    for (Map.Entry<String, Book> entry : getList().entrySet()) {
+		if (entry.getKey().equalsIgnoreCase(id)) {
+		    entry.getValue().setStatus(false);
 		}
 	    }
 	    System.out.println(">>Hide book successfully!");
@@ -139,15 +139,14 @@ public class BookService implements IService<Book> {
 	tempBook.setStatus(newStatus);
 
 	if (Utils.confirmChoice("Do you want to update " + id + " [YES/NO]: ")) {
-	    bookAction.getList().remove(id);
-	    bookAction.getList().put(tempBook, id);
+	    bookAction.getList().replace(id, searchBookById(id), tempBook);
 	    System.out.println(">>Updated book successfully!");
 	}
 
     }
 
     @Override
-    public Map<Book, String> getList() throws Exception {
+    public Map<String, Book> getList() throws Exception {
 	return bookAction.getList();
     }
 

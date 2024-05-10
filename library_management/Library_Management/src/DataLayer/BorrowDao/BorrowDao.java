@@ -18,7 +18,7 @@ import java.util.Map;
 public class BorrowDao implements ILibraryDao<Borrow> {
     IFileManager<Borrow> fileManager;
 
-    Map<Borrow, String> borrowList = new HashMap<>();
+    Map<String, Borrow> borrowList = new HashMap<>();
 
     public BorrowDao() {
     }
@@ -33,7 +33,7 @@ public class BorrowDao implements ILibraryDao<Borrow> {
     }
 
     @Override
-    public Map<Borrow, String> getList() throws Exception {
+    public Map<String, Borrow> getList() throws Exception {
 	if (borrowList.isEmpty()) {
 	    throw new Exception("Event list is empty");
 	}

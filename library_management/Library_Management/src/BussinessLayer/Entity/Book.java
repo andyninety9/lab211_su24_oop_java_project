@@ -5,13 +5,11 @@
 
 package BussinessLayer.Entity;
 
-import java.io.Serializable;
-
 /**
  *
  * @author duyma
  */
-public class Book extends LibraryObject implements Serializable {
+public class Book extends LibraryObject {
     private String author;
     private String publicationYear;
     private String publisher;

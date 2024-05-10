@@ -36,7 +36,12 @@ public class Menu {
 
     public static void manageBook(IService service) {
 	BookMenu bookMenu = new BookMenu(service);
-	bookMenu.processMenuForBook();
+	bookMenu.processMenuBook();
+    }
+
+    public static void manageUser(IService service) {
+	UserMenu userMenu = new UserMenu(service);
+	userMenu.processMenuUser();
     }
 
 }

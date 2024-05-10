@@ -15,6 +15,6 @@ import java.util.Map;
 public interface IFileManager<T> {
     <K, V> Map<K, V> readDataFromFile() throws Exception;
 
-    <K, V> void writeDataToFile(Map<T, String> list) throws Exception;
+    <K, V> void writeDataToFile(Map<String, T> list) throws Exception;
 
 }

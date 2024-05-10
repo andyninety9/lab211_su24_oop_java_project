@@ -26,7 +26,7 @@ public class BookMenu {
 	this.service = service;
     }
 
-    public void processMenuForBook() {
+    public void processMenuBook() {
 	boolean isRun = true;
 	do {
 	    Menu.display(bookMenu);
@@ -105,8 +105,8 @@ public class BookMenu {
 	    System.out.println(
 		    "+--------------------------------------------------------------------------------------------+");
 
-	    for (String string : ((BookService) service).sortListBookByIDAsc(service.getList())) {
-		System.out.println(((BookService) service).searchBookById(string));
+	    for (String idSorted : ((BookService) service).sortListBookByIDAsc(service.getList())) {
+		System.out.println(((BookService) service).searchBookById(idSorted));
 	    }
 
 	    System.out.println(
@@ -124,9 +124,9 @@ public class BookMenu {
 		    "       AUTHOR", "YEAR", "   PUBLISHER", "   ISBN", " STATUS"));
 	    System.out.println(
 		    "+--------------------------------------------------------------------------------------------+");
-	    for (Map.Entry<Book, String> entry : service.getList().entrySet()) {
-		if (entry.getKey().getStatus()) {
-		    System.out.println(entry.getKey());
+	    for (Map.Entry<String, Book> entry : service.getList().entrySet()) {
+		if (entry.getValue().getStatus()) {
+		    System.out.println(entry.getValue());
 		}
 	    }
 	    System.out.println(

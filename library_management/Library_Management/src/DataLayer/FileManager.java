@@ -48,7 +48,7 @@ public class FileManager<T> implements IFileManager<T> {
     }
 
     @Override
-    public <K, V> void writeDataToFile(Map<T, String> list) throws Exception {
+    public <K, V> void writeDataToFile(Map<String, T> list) throws Exception {
 	if (list.isEmpty()) {
 	    System.out.println(">>Nothing to save...");
 	    return;

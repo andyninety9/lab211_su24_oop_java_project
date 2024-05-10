@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class BookDao implements ILibraryDao<Book> {
     IFileManager<Book> fileManager;
-    Map<Book, String> bookList = new HashMap<>();
+    Map<String, Book> bookList = new HashMap<>();
 
     public BookDao() {
     }
@@ -32,7 +32,7 @@ public class BookDao implements ILibraryDao<Book> {
     }
 
     @Override
-    public Map<Book, String> getList() throws Exception {
+    public Map<String, Book> getList() throws Exception {
 	return bookList;
     }
 

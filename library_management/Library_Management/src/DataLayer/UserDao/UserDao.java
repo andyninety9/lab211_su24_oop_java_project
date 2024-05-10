@@ -18,7 +18,7 @@ import java.util.Map;
 public class UserDao implements ILibraryDao<User> {
     IFileManager<User> fileManager;
 
-    Map<User, String> userList = new HashMap<>();
+    Map<String, User> userList = new HashMap<>();
 
     public UserDao() {
     }
@@ -33,7 +33,7 @@ public class UserDao implements ILibraryDao<User> {
     }
 
     @Override
-    public Map<User, String> getList() throws Exception {
+    public Map<String, User> getList() throws Exception {
 	if (userList.isEmpty()) {
 	    throw new Exception("Event list is empty");
 	}
