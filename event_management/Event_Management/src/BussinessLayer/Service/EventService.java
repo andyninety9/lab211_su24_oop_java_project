@@ -94,7 +94,7 @@ public class EventService implements IService<Event> {
 		}
 	    }
 	}
-	sortListEventByAttendance(list);
+	sortListEventByAttendanceASC(list);
 	return list;
 
     }
@@ -182,35 +182,36 @@ public class EventService implements IService<Event> {
 
     private void sortListEventByDateAndName(List<Event> list) throws Exception {
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	for (int i = 0; i < list.size(); i++) {
+
+	for (int i = 0; i < list.size() - 1; i++) {
+	    int minIndex = i;
 	    for (int j = i; j < list.size(); j++) {
 		LocalDate dateLeft = LocalDate.parse(list.get(i).getEventDay(), formatter);
 		LocalDate dateRight = LocalDate.parse(list.get(j).getEventDay(), formatter);
 		if (dateLeft.compareTo(dateRight) > 0) {
-		    Event tmp = list.get(i);
-		    list.set(i, list.get(j));
-		    list.set(j, tmp);
-		} else if (dateLeft.compareTo(dateRight) == 0) {
-		    if (list.get(i).getEventName().toLowerCase()
-			    .compareTo(list.get(j).getEventName().toLowerCase()) > 0) {
-			Event tmp = list.get(i);
-			list.set(i, list.get(j));
-			list.set(j, tmp);
-		    }
+		    minIndex = j;
+		} else if (dateLeft.compareTo(dateRight) == 0 && list.get(i).getEventName().toLowerCase()
+			.compareTo(list.get(j).getEventName().toLowerCase()) > 0) {
+		    minIndex = j;
 		}
 	    }
+	    Event tmp = list.get(i);
+	    list.set(i, list.get(minIndex));
+	    list.set(minIndex, tmp);
 	}
     }
 
-    private void sortListEventByAttendance(List<Event> list) {
-	for (int i = 0; i < list.size(); i++) {
-	    for (int j = i; j < list.size(); j++) {
-		if (list.get(i).getNumberOfAttendees() > list.get(j).getNumberOfAttendees()) {
-		    Event tmp = list.get(i);
-		    list.set(i, list.get(j));
-		    list.set(j, tmp);
+    private void sortListEventByAttendanceASC(List<Event> list) {
+	for (int i = 0; i < list.size() - 1; i++) {
+	    int minIndex = i;
+	    for (int j = i + 1; j < list.size(); j++) {
+		if (list.get(j).getNumberOfAttendees() < list.get(minIndex).getNumberOfAttendees()) {
+		    minIndex = j;
 		}
 	    }
+	    Event tmp = list.get(i);
+	    list.set(i, list.get(minIndex));
+	    list.set(minIndex, tmp);
 	}
     }
 

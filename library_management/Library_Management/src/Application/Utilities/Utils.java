@@ -5,6 +5,7 @@
 
 package Application.Utilities;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -79,5 +80,35 @@ public class Utils {
 	    available = "Not Available";
 	}
 	return available;
+    }
+
+    public static String normalizeName(String s) {
+	if (s.isEmpty()) {
+	    return s;
+	}
+	s = s.toLowerCase().replaceAll("\\s+", " ");
+	String result = "";
+	String[] arrStr = s.trim().split(" ");
+	for (String string : arrStr) {
+	    char[] charArr = string.toCharArray();
+	    charArr[0] = Character.toUpperCase(charArr[0]);
+	    result += new String(charArr);
+	    result += " ";
+	}
+
+	return result.trim();
+    }
+
+    public static void main(String[] args) {
+	try {
+	    ArrayList<Integer> list = new ArrayList<>();
+	    list.add(5);
+	    list.add(2);
+	    list.add(6);
+	    list.add(1);
+	    list.add(3);
+	} catch (Exception e) {
+	    System.out.println(e.getMessage());
+	}
     }
 }

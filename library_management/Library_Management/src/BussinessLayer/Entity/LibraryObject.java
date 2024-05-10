@@ -5,6 +5,7 @@
 
 package BussinessLayer.Entity;
 
+import Application.Utilities.Utils;
 import java.io.Serializable;
 
 /**
@@ -30,7 +31,7 @@ public abstract class LibraryObject implements Serializable {
     }
 
     public void setId(String id) {
-	this.id = id;
+	this.id = id.toUpperCase();
     }
 
     public String getName() {
@@ -38,7 +39,7 @@ public abstract class LibraryObject implements Serializable {
     }
 
     public void setName(String name) {
-	this.name = name;
+	this.name = Utils.normalizeName(name);
     }
 
     public boolean getStatus() {

@@ -45,21 +45,24 @@ public class BookService implements IService<Book> {
     }
 
     public List<String> sortListBookByIDAsc(Map<String, Book> list) throws Exception {
-	List<String> sortedBookID = new ArrayList<>();
+	List<String> sortedBookIDList = new ArrayList<>();
 	for (Map.Entry<String, Book> entry : getList().entrySet()) {
-	    sortedBookID.add(entry.getKey());
+	    sortedBookIDList.add(entry.getKey());
 	}
-//note
-	for (int i = 0; i < sortedBookID.size(); i++) {
-	    for (int j = i; j < sortedBookID.size(); j++) {
-		if (sortedBookID.get(i).compareTo(sortedBookID.get(j)) > 0) {
-		    String tmp = sortedBookID.get(i);
-		    sortedBookID.set(i, sortedBookID.get(j));
-		    sortedBookID.set(j, tmp);
+
+	for (int i = 0; i < sortedBookIDList.size() - 1; i++) {
+	    int minIndex = i;
+	    for (int j = i + 1; j < sortedBookIDList.size(); j++) {
+		if (sortedBookIDList.get(j).compareTo(sortedBookIDList.get(minIndex)) < 0) {
+		    minIndex = j;
 		}
 	    }
+
+	    String tmp = sortedBookIDList.get(minIndex);
+	    sortedBookIDList.set(minIndex, sortedBookIDList.get(i));
+	    sortedBookIDList.set(i, tmp);
 	}
-	return sortedBookID;
+	return sortedBookIDList;
     }
 
     @Override
