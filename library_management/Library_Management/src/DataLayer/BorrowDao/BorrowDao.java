@@ -34,9 +34,6 @@ public class BorrowDao implements ILibraryDao<Borrow> {
 
     @Override
     public Map<String, Borrow> getList() throws Exception {
-	if (borrowList.isEmpty()) {
-	    throw new Exception("Event list is empty");
-	}
 	return borrowList;
     }
 

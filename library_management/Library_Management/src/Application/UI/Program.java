@@ -7,10 +7,9 @@ package Application.UI;
 
 import Application.Utilities.Utils;
 import BussinessLayer.Service.BookService;
+import BussinessLayer.Service.BorrowService;
 import BussinessLayer.Service.IService;
 import BussinessLayer.Service.UserService;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -19,12 +18,14 @@ import java.util.logging.Logger;
 public class Program {
     public static final String BOOKS_FILENAME = "books.dat";
     public static final String USERS_FILENAME = "users.dat";
+    public static final String BORROWS_FILENAME = "borrows.dat";
 
     public static void main(String[] args) {
 	boolean isRun = true;
 	try {
 	    IService bookService = new BookService(BOOKS_FILENAME);
 	    IService userService = new UserService(USERS_FILENAME);
+	    IService borrowService = new BorrowService(BORROWS_FILENAME);
 	    do {
 		Menu.display(mainMenu);
 		switch (Menu.getUserChoice()) {
@@ -37,7 +38,7 @@ public class Program {
 		    break;
 		}
 		case 3: {
-
+		    Menu.manageBorrow(borrowService);
 		    break;
 		}
 		case 4: {
@@ -45,12 +46,12 @@ public class Program {
 		    break;
 		}
 		case 5: {
-		    handleSaveData(bookService, userService);
+		    handleSaveData(bookService, userService, borrowService);
 		    break;
 		}
 		default: {
 		    if (Utils.confirmChoice("Do you want to save data before closing[YES/NO]: ")) {
-			handleSaveData(bookService, userService);
+			handleSaveData(bookService, userService, borrowService);
 		    }
 		    isRun = false;
 		    System.out.println("Thank you!");
@@ -63,9 +64,11 @@ public class Program {
 	}
     }
 
-    public static void handleSaveData(IService bookService, IService userService) throws Exception {
+    public static void handleSaveData(IService bookService, IService userService, IService borrowService)
+	    throws Exception {
 	bookService.saveDataToFile();
 	userService.saveDataToFile();
+	borrowService.saveDataToFile();
 	System.out.println(">>Save data successfully!");
     }
 

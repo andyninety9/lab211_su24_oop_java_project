@@ -44,4 +44,9 @@ public class Menu {
 	userMenu.processMenuUser();
     }
 
+    public static void manageBorrow(IService borrowService) {
+	BorrowMenu borrowMenu = new BorrowMenu(borrowService);
+	borrowMenu.processMenuBorrow();
+    }
+
 }

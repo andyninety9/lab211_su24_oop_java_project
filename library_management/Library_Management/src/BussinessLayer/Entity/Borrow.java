@@ -67,12 +67,7 @@ public class Borrow implements Serializable {
 
     @Override
     public String toString() {
-	return "Borrow{" + "id=" + id + ", bookId=" + bookId + ", userId=" + userId + ", borrowDate=" + borrowDate
-		+ ", returnDate=" + returnDate + '}';
+	return String.format("|%10s|%10s|%10s|%12s|%12s|", this.id, this.userId, this.bookId, this.borrowDate,
+		this.returnDate);
     }
-
-    public String getID() throws Exception {
-	return userId;
-    }
-
 }
