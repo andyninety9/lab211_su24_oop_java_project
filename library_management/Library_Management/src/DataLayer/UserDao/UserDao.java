@@ -34,9 +34,9 @@ public class UserDao implements ILibraryDao<User> {
 
     @Override
     public Map<String, User> getList() throws Exception {
-	if (userList.isEmpty()) {
-	    throw new Exception("Event list is empty");
-	}
+//	if (userList.isEmpty()) {
+//	    throw new Exception("Event list is empty");
+//	}
 	return userList;
     }
 

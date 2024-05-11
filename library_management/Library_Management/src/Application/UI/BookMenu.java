@@ -206,7 +206,7 @@ public class BookMenu {
 	return newBook;
     }
 
-    public static String[] bookMenu = { "+--------------------------------------------------+", "       MAIN MENU",
+    public static String[] bookMenu = { "+--------------------------------------------------+", "       BOOK MENU",
 	    "|--------------------------------------------------|", "1. Add a Book", "2. Update Book Information",
 	    "3. Delete a Book", "4. Show All Books", "5. Others - Quits",
 	    "+--------------------------------------------------+" };

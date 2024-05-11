@@ -5,8 +5,6 @@
 
 package BussinessLayer.Entity;
 
-import java.io.Serializable;
-
 /**
  *
  * @author duyma

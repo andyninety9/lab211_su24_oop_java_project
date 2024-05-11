@@ -42,7 +42,7 @@ public class FileManager<T> implements IFileManager<T> {
 
 	    ois.close();
 	    fis.close();
-	    System.out.println(">>Load file successfully!");
+	    System.out.println(">>Load file " + fileName + " successfully!");
 	}
 	return result;
     }
@@ -50,8 +50,7 @@ public class FileManager<T> implements IFileManager<T> {
     @Override
     public <K, V> void writeDataToFile(Map<String, T> list) throws Exception {
 	if (list.isEmpty()) {
-	    System.out.println(">>Nothing to save...");
-	    return;
+	    throw new Exception(">>Nothing to save...");
 	}
 	FileOutputStream fos = new FileOutputStream(this.fileName);
 	ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -60,7 +59,7 @@ public class FileManager<T> implements IFileManager<T> {
 	oos.close();
 	fos.close();
 
-	System.out.println(">>Saved to file successfully!");
+//	System.out.println(">>Saved to file successfully!");
     }
 
 }

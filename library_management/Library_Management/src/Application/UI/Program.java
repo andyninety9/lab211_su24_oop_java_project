@@ -5,8 +5,12 @@
 
 package Application.UI;
 
+import Application.Utilities.Utils;
 import BussinessLayer.Service.BookService;
 import BussinessLayer.Service.IService;
+import BussinessLayer.Service.UserService;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,7 +24,7 @@ public class Program {
 	boolean isRun = true;
 	try {
 	    IService bookService = new BookService(BOOKS_FILENAME);
-
+	    IService userService = new UserService(USERS_FILENAME);
 	    do {
 		Menu.display(mainMenu);
 		switch (Menu.getUserChoice()) {
@@ -29,7 +33,7 @@ public class Program {
 		    break;
 		}
 		case 2: {
-//		    Menu.manageUser(bookService);
+		    Menu.manageUser(userService);
 		    break;
 		}
 		case 3: {
@@ -41,10 +45,13 @@ public class Program {
 		    break;
 		}
 		case 5: {
-		    bookService.saveDataToFile();
+		    handleSaveData(bookService, userService);
 		    break;
 		}
 		default: {
+		    if (Utils.confirmChoice("Do you want to save data before closing[YES/NO]: ")) {
+			handleSaveData(bookService, userService);
+		    }
 		    isRun = false;
 		    System.out.println("Thank you!");
 		    break;
@@ -54,6 +61,12 @@ public class Program {
 	} catch (Exception e) {
 	    System.out.println(">>" + e.getMessage());
 	}
+    }
+
+    public static void handleSaveData(IService bookService, IService userService) throws Exception {
+	bookService.saveDataToFile();
+	userService.saveDataToFile();
+	System.out.println(">>Save data successfully!");
     }
 
     public static String[] mainMenu = { "+--------------------------------------------------+", "       MAIN MENU",
