@@ -87,7 +87,8 @@ public class UserService implements IService<User> {
     public void update(String id) throws Exception {
 	User updateUser = searchUserById(id);
 	if (updateUser == null) {
-	    throw new Exception("User ID is not available!");
+	    System.out.println("User ID is not available!");
+	    return;
 	}
 	while (true) {
 	    String newName = Utils.getString("Update a new username: ");

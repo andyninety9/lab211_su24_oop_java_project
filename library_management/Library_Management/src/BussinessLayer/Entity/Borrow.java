@@ -17,16 +17,18 @@ public class Borrow implements Serializable {
     private String userId;
     private String borrowDate;
     private String returnDate;
+    private String status;
 
     public Borrow() {
     }
 
-    public Borrow(String id, String bookId, String userId, String borrowDate, String returnDate) {
+    public Borrow(String id, String bookId, String userId, String borrowDate, String returnDate, String status) {
 	this.id = id;
 	this.bookId = bookId;
 	this.userId = userId;
 	this.borrowDate = borrowDate;
 	this.returnDate = returnDate;
+	this.status = status;
     }
 
     public String getId() {
@@ -34,7 +36,7 @@ public class Borrow implements Serializable {
     }
 
     public void setId(String id) {
-	this.id = id;
+	this.id = id.toUpperCase();
     }
 
     public String getBookId() {
@@ -42,7 +44,7 @@ public class Borrow implements Serializable {
     }
 
     public void setBookId(String bookId) {
-	this.bookId = bookId;
+	this.bookId = bookId.toUpperCase();
     }
 
     public void setUserId(String userId) {
@@ -65,9 +67,17 @@ public class Borrow implements Serializable {
 	this.returnDate = returnDate;
     }
 
+    public String getStatus() {
+	return status;
+    }
+
+    public void setStatus(String status) {
+	this.status = status;
+    }
+
     @Override
     public String toString() {
-	return String.format("|%10s|%10s|%10s|%12s|%12s|", this.id, this.userId, this.bookId, this.borrowDate,
-		this.returnDate);
+	return String.format("|%10s|%10s|%10s|%12s|%12s|%12s|", this.id, this.userId, this.bookId, this.borrowDate,
+		this.returnDate, this.status);
     }
 }

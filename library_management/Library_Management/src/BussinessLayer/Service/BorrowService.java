@@ -6,7 +6,6 @@
 package BussinessLayer.Service;
 
 import Application.UI.BookMenu;
-import Application.UI.Menu;
 import Application.UI.Program;
 import Application.UI.UserMenu;
 import Application.Utilities.Utils;
@@ -19,7 +18,11 @@ import DataLayer.IDaoFactory;
 import DataLayer.ILibraryDao;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  *
@@ -121,6 +124,13 @@ public class BorrowService implements IService<Borrow> {
 	    System.out.println(">>" + e.getMessage());
 	}
 
+	try {
+	    String statusBorrowing = Utils.inputStatusBorrow();
+	    newBorrow.setStatus(statusBorrowing);
+	} catch (Exception e) {
+	    System.out.println(">>" + e.getMessage());
+	}
+
 	return newBorrow;
     }
 
@@ -157,6 +167,79 @@ public class BorrowService implements IService<Borrow> {
 	return true;
     }
 
+    public List<String> getListBookBorrowed() throws Exception {
+	List<String> listBorrowedBooks = new ArrayList<>();
+	Set<String> listCheck = new TreeSet<>();
+	for (Borrow b : getList().values()) {
+	    if (!listCheck.contains(b.getBookId())) {
+		listBorrowedBooks.add(b.getBookId());
+		listCheck.add(b.getBookId());
+	    }
+	}
+	return sortIDByASC(listBorrowedBooks);
+    }
+
+    public ArrayList<Borrow> getListFilterBorrowByDate() throws Exception {
+//	try {
+	String date2, date1;
+
+	while (true) {
+	    date1 = Utils.getString("From date[yyyy-mm-dd]: ");
+	    if (DataValidation.validateDate(date1)) {
+		break;
+	    }
+	}
+	while (true) {
+	    date2 = Utils.getString("To date[yyyy-mm-dd]: ");
+	    if (DataValidation.validateDate(date2)) {
+		break;
+	    }
+	}
+	IService<Borrow> borrowService = new BorrowService(Program.BORROWS_FILENAME);
+	ArrayList<Borrow> listFiltered = new ArrayList<>();
+//	    System.out.println("+-----------------------------------------------------------------------+");
+//	    System.out.println(String.format("|%-10s|%-10s|%-10s|%-12s|%-12s|%-12s|", "    ID", "  USER ID",
+//		    "  BOOK ID", "    BR.DATE", "    RT.DATE", "   STATUS"));
+//	    System.out.println("+-----------------------------------------------------------------------+");
+	for (Borrow b : borrowService.getList().values()) {
+	    if (date1.compareTo(b.getBorrowDate()) < 0 && b.getBorrowDate().compareTo(date2) < 0) {
+//		    System.out.println(b);
+		listFiltered.add(b);
+	    }
+	}
+	System.out.println("+-----------------------------------------------------------------------+");
+	return listFiltered;
+//	} catch (Exception e) {
+//	}
+    }
+
+    public List<String> getReportOverdueBooks() throws Exception {
+
+	List<String> listIDOverdueBooks = new ArrayList<>();
+	for (Map.Entry<String, Borrow> borrow : getList().entrySet()) {
+	    if (borrow.getValue().getStatus().equalsIgnoreCase("Overdue")) {
+		listIDOverdueBooks.add(borrow.getValue().getBookId());
+	    }
+	}
+	return sortIDByASC(listIDOverdueBooks);
+    }
+
+    public List<String> sortIDByASC(List<String> list) {
+	for (int i = 0; i < list.size() - 1; i++) {
+	    int minIndex = i;
+	    for (int j = i + 1; j < list.size(); j++) {
+		if (list.get(j).compareTo(list.get(minIndex)) < 0) {
+		    minIndex = j;
+		}
+	    }
+
+	    String tmp = list.get(minIndex);
+	    list.set(minIndex, list.get(i));
+	    list.set(i, tmp);
+	}
+	return list;
+    }
+
     @Override
     public void add(Borrow obj) throws Exception {
 	borrowAction.getList().put(obj.getId(), obj);
@@ -185,7 +268,7 @@ public class BorrowService implements IService<Borrow> {
 		    break;
 		}
 		if (checkUserBorrow(idUser, (UserService) userService)) {
-		    updateBorrow.setUserId(idUser);
+		    updateBorrow.setUserId(idUser.toUpperCase());
 		    break;
 		}
 	    }
@@ -200,7 +283,7 @@ public class BorrowService implements IService<Borrow> {
 		    break;
 		}
 		if (checkBookBorrow(idBook, (BookService) bookService)) {
-		    updateBorrow.setBookId(idBook);
+		    updateBorrow.setBookId(idBook.toUpperCase());
 		    break;
 		}
 	    }
@@ -233,6 +316,19 @@ public class BorrowService implements IService<Borrow> {
 		    break;
 		}
 		System.out.println(">>Return day must be a day after borrow date[yyyy-mm-dd]");
+	    }
+	} catch (Exception e) {
+	    System.out.println(">>" + e.getMessage());
+	}
+
+	try {
+	    while (true) {
+		String statusBorrowing = Utils.inputStatusBorrow();
+		if (statusBorrowing == null) {
+		    break;
+		}
+		updateBorrow.setStatus(statusBorrowing);
+		break;
 	    }
 	} catch (Exception e) {
 	    System.out.println(">>" + e.getMessage());

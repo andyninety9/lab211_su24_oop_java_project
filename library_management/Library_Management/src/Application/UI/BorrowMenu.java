@@ -62,14 +62,14 @@ public class BorrowMenu {
 
     public void handleDisplayAllBorrow() {
 	try {
-	    System.out.println("+----------------------------------------------------------+");
-	    System.out.println(String.format("|%-10s|%-10s|%-10s|%-12s|%-12s|", "    ID", "  USER ID", "  BOOK ID",
-		    "    BR.DATE", "    RT.DATE"));
-	    System.out.println("+----------------------------------------------------------+");
+	    System.out.println("+-----------------------------------------------------------------------+");
+	    System.out.println(String.format("|%-10s|%-10s|%-10s|%-12s|%-12s|%-12s|", "    ID", "  USER ID",
+		    "  BOOK ID", "    BR.DATE", "    RT.DATE", "   STATUS"));
+	    System.out.println("+-----------------------------------------------------------------------+");
 	    for (Map.Entry<String, Borrow> borrow : borrowService.getList().entrySet()) {
 		System.out.println(borrow.getValue());
 	    }
-	    System.out.println("+----------------------------------------------------------+");
+	    System.out.println("+-----------------------------------------------------------------------+");
 	} catch (Exception e) {
 	    System.out.println(">>" + e.getMessage());
 	}

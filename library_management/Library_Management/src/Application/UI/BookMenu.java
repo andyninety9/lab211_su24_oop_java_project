@@ -141,7 +141,7 @@ public class BookMenu {
 	try {
 	    while (true) {
 		String newId = Utils.getString("Create book id: ");
-		if (((BookService) service).searchBookById(newId) == null) {
+		if (((BookService) service).searchBookById(newId) == null && !newId.isBlank()) {
 		    newBook.setId(newId);
 		    break;
 		} else {
@@ -154,8 +154,10 @@ public class BookMenu {
 	try {
 	    while (true) {
 		String newName = Utils.getString("Enter book name: ");
-		newBook.setName(newName);
-		break;
+		if (!newName.isBlank()) {
+		    newBook.setName(newName);
+		    break;
+		}
 	    }
 	} catch (Exception e) {
 	    System.out.println(">>" + e.getMessage());
@@ -163,8 +165,10 @@ public class BookMenu {
 	try {
 	    while (true) {
 		String newAuthor = Utils.getString("Enter book author: ");
-		newBook.setAuthor(newAuthor);
-		break;
+		if (!newAuthor.isBlank()) {
+		    newBook.setAuthor(newAuthor);
+		    break;
+		}
 	    }
 	} catch (Exception e) {
 	    System.out.println(">>" + e.getMessage());
@@ -185,8 +189,10 @@ public class BookMenu {
 	try {
 	    while (true) {
 		String newPublisher = Utils.getString("Enter book publisher: ");
-		newBook.setPublisher(newPublisher);
-		break;
+		if (!newPublisher.isBlank()) {
+		    newBook.setPublisher(newPublisher);
+		    break;
+		}
 	    }
 	} catch (Exception e) {
 	    System.out.println(">>" + e.getMessage());

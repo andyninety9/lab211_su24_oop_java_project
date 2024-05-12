@@ -60,7 +60,7 @@ public class UserMenu {
 	try {
 	    while (true) {
 		String newId = Utils.getString("Create user id: ");
-		if (((UserService) service).searchUserById(newId) == null) {
+		if (((UserService) service).searchUserById(newId) == null && !newId.isBlank()) {
 		    newUser.setId(newId);
 		    break;
 		} else {

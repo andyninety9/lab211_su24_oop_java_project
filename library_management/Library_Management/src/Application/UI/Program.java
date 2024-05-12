@@ -42,7 +42,8 @@ public class Program {
 		    break;
 		}
 		case 4: {
-
+		    ReportMenu report = new ReportMenu();
+		    report.processReportMenu();
 		    break;
 		}
 		case 5: {

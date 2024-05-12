@@ -72,14 +72,17 @@ public class Utils {
 	}
     }
 
-    public static String inputStatus() {
-	String available;
-	if (Utils.confirmChoice("Enter 'y' for Available or others for Not Available:  ")) {
-	    available = "Available";
-	} else {
-	    available = "Not Available";
+    public static String inputStatusBorrow() throws Exception {
+	String available = getString("Enter '1' for Borrowing, '2' for Returned or '3' for Overdue: ");
+
+	if (available.equalsIgnoreCase("1")) {
+	    return "Borrowing";
+	} else if (available.equalsIgnoreCase("2")) {
+	    return "Returned";
+	} else if (available.equalsIgnoreCase("3")) {
+	    return "Overdue";
 	}
-	return available;
+	return null;
     }
 
     public static String normalizeName(String s) {
@@ -99,16 +102,17 @@ public class Utils {
 	return result.trim();
     }
 
-    public static void main(String[] args) {
-	try {
-	    ArrayList<Integer> list = new ArrayList<>();
-	    list.add(5);
-	    list.add(2);
-	    list.add(6);
-	    list.add(1);
-	    list.add(3);
-	} catch (Exception e) {
-	    System.out.println(e.getMessage());
-	}
-    }
+//    public static void main(String[] args) {
+//	try {
+//	    ArrayList<Integer> list = new ArrayList<>();
+//	    list.add(5);
+//	    list.add(2);
+//	    list.add(6);
+//	    list.add(1);
+//	    list.add(3);
+//	} catch (Exception e) {
+//	    System.out.println(e.getMessage());
+//	}
+//    }
+
 }

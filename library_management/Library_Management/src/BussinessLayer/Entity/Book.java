@@ -5,6 +5,8 @@
 
 package BussinessLayer.Entity;
 
+import Application.Utilities.Utils;
+
 /**
  *
  * @author duyma
@@ -32,7 +34,7 @@ public class Book extends LibraryObject {
     }
 
     public void setAuthor(String author) {
-	this.author = author;
+	this.author = Utils.normalizeName(author);
     }
 
     public String getPublicationYear() {
@@ -48,7 +50,7 @@ public class Book extends LibraryObject {
     }
 
     public void setPublisher(String publisher) {
-	this.publisher = publisher;
+	this.publisher = Utils.normalizeName(publisher);
     }
 
     public String getISBN() {
@@ -56,7 +58,7 @@ public class Book extends LibraryObject {
     }
 
     public void setISBN(String ISBN) {
-	this.ISBN = ISBN;
+	this.ISBN = ISBN.toUpperCase();
     }
 
     @Override
