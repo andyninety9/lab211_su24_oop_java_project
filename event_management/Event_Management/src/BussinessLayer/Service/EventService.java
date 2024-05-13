@@ -86,12 +86,9 @@ public class EventService implements IService<Event> {
 	if (eventAction.getList().isEmpty()) {
 	    return null;
 	}
-	for (Object object : eventAction.getList()) {
-	    if (object instanceof Event) {
-		Event event = (Event) object;
-		if (event.getEventLocation().toLowerCase().contains(location.toLowerCase())) {
-		    list.add(event);
-		}
+	for (Event event : getList()) {
+	    if (event.getEventLocation().toLowerCase().contains(location.toLowerCase())) {
+		list.add(event);
 	    }
 	}
 	sortListEventByAttendanceASC(list);
